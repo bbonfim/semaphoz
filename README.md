@@ -3,14 +3,12 @@
 A macOS menu bar widget showing the state of every running Claude Code session as a row
 of coloured dots.
 
-```
-①②③④⑤⑥⑦⑧⑨   ● ●
-└─ 9 fixed slots ─┘  └ overflow ┘
-```
+<p align="center">
+  <img src="docs/menubar.png" alt="Semaphoz in the macOS menu bar: nine numbered dots, green for idle, yellow for running, red for waiting" width="624">
+</p>
 
 Each slot dot carries its number, so the grid stays readable without opening the
-dropdown — the number is exactly the `[n]` you can claim with `/rename`. Overflow dots
-are deliberately unnumbered, since positions past the grid are not claimable.
+dropdown — the number is exactly the `[n]` you can claim with `/rename`.
 
 At the default 18pt dots the full row is ~194pt wide.
 
@@ -81,6 +79,17 @@ Clicking the menu bar opens the dropdown. To stop it, use **Quit Semaphoz** ther
 The zip is produced with `ditto` rather than `zip`, which preserves the bundle's symlinks
 and extended attributes — a plain `zip` can yield an `.app` that will not launch.
 
+### Regenerating the screenshot
+
+```sh
+./build.sh && open -a "$PWD/Semaphoz.app" --args --demo
+```
+
+`--demo` renders a fixed, fake arrangement and never reads the session registry, so a
+documentation screenshot cannot leak real session names or paths. The arrangement is one
+array at the top of `Sources/Demo.swift`. Run `./install.sh` afterwards to go back to
+showing real sessions.
+
 ## How session state is detected
 
 Claude Code maintains a live session registry at `~/.claude/sessions/<pid>.json`, one file
@@ -109,6 +118,14 @@ Two details that are easy to get wrong:
 A **fixed grid of 9 slots** (`Layout.slotCount`), always drawn. Because the grid is fixed,
 dots never slide: a slot is either occupied or hollow, and its position never depends on
 what else is running.
+
+```
+①②③④⑤⑥⑦⑧⑨   ● ●
+└─ 9 fixed slots ─┘  └ overflow ┘
+```
+
+Overflow dots are deliberately unnumbered, since positions past the grid are not
+claimable.
 
 ### Claiming a slot
 

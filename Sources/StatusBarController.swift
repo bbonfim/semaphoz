@@ -32,7 +32,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     // MARK: - Data
 
     private func refresh() {
-        layout = Layout.build(from: Registry.liveSessions())
+        layout = Demo.isEnabled ? Demo.layout() : Layout.build(from: Registry.liveSessions())
         statusItem.button?.image = renderRow()
     }
 
