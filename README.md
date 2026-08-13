@@ -4,15 +4,15 @@ A macOS menu bar widget showing the state of every running Claude Code session a
 of coloured dots.
 
 ```
-①②③④⑤⑥⑦⑧⑨⑩   ● ●
-└─ 10 fixed slots ─┘  └ overflow ┘
+①②③④⑤⑥⑦⑧⑨   ● ●
+└─ 9 fixed slots ─┘  └ overflow ┘
 ```
 
 Each slot dot carries its number, so the grid stays readable without opening the
 dropdown — the number is exactly the `[n]` you can claim with `/rename`. Overflow dots
 are deliberately unnumbered, since positions past the grid are not claimable.
 
-At the default 18pt dots the full row is ~216pt wide.
+At the default 18pt dots the full row is ~194pt wide.
 
 - 🟡 **yellow** — running
 - 🔴 **red** — waiting for your input (permission prompt)
@@ -106,7 +106,7 @@ Two details that are easy to get wrong:
 
 ## Slot model
 
-A **fixed grid of 10 slots** (`Layout.slotCount`), always drawn. Because the grid is fixed,
+A **fixed grid of 9 slots** (`Layout.slotCount`), always drawn. Because the grid is fixed,
 dots never slide: a slot is either occupied or hollow, and its position never depends on
 what else is running.
 
@@ -126,12 +126,12 @@ keeps its name, so it returns to its slot on its own.
 - Claims are resolved **before** any auto-assignment, so an unnumbered session can never
   squat a claimed slot.
 - Everything else fills the **lowest available slot**, oldest first.
-- Sessions past 10 append to the **right of a wider gap** and simply vanish when they
+- Sessions past 9 append to the **right of a wider gap** and simply vanish when they
   exit, rather than leaving a hollow slot. This keeps the row bounded.
 - Session exits → the slot is immediately free. There are no reservations and no state
   to prune; occupancy is purely a function of what is live right now.
 
-A claim is refused when the number is outside 1–10, or when an older live session already
+A claim is refused when the number is outside 1–9, or when an older live session already
 holds it — oldest wins, so the outcome doesn't depend on file read order. Refused sessions
 fall back to the lowest free slot and the dropdown says why (`[3] taken`), so an unexpected
 position is self-diagnosing.

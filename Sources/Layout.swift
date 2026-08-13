@@ -3,7 +3,10 @@ import Foundation
 /// A fixed grid of slots. Because the grid is fixed, dots never slide: a slot is either
 /// occupied or hollow, and its position on screen never depends on what else is running.
 struct Layout {
-    static let slotCount = 10
+    /// Nine, not ten, so every slot number has a keyboard analogue: terminals map ⌘1–⌘9
+    /// to tabs, but ⌘0 is generally not a tab shortcut, leaving slot 10 the odd one out.
+    /// Single digits also keep every number rendering at the same size in the menu bar.
+    static let slotCount = 9
 
     /// A session placed on the grid, plus the claim it was refused (if any) so the
     /// dropdown can explain why a `[n]` did not land where the user expected.

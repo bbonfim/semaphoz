@@ -6,7 +6,7 @@ final class StatusBarController: NSObject, NSMenuDelegate {
     private var timer: Timer?
     private var layout = Layout.build(from: [])
 
-    // Menu bar geometry. 10 slots at these values is ~216pt wide.
+    // Menu bar geometry. 9 slots at these values is ~194pt wide.
     // The bar is 24pt tall, so barHeight must leave a little breathing room or macOS
     // scales the image down — verify the rendered dot size after changing these.
     // 20pt is the ceiling before clipping; 18 keeps ~3pt of margin top and bottom.
@@ -140,7 +140,8 @@ final class StatusBarController: NSObject, NSMenuDelegate {
         guard let number else { return }
         let text = "\(number)"
 
-        // Two digits ("10") need to shrink to stay inside the circle.
+        // Unreachable at the default slot count of 9, but kept so raising `slotCount`
+        // does not push a two-digit number outside its circle.
         let fontSize = dotDiameter * (text.count > 1 ? 0.50 : 0.62)
         let label = NSAttributedString(string: text, attributes: [
             .font: NSFont.monospacedDigitSystemFont(ofSize: fontSize, weight: .bold),
