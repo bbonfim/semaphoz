@@ -21,6 +21,31 @@ At the default 18pt dots the full row is ~216pt wide.
 
 ## Install
 
+Download the latest `Semaphoz-x.y.z.zip` from
+[Releases](https://github.com/bbonfim/semaphoz/releases), unzip it, and drag
+**Semaphoz.app** into your Applications folder. Universal binary — Apple Silicon and
+Intel. Requires macOS 13 or later.
+
+**macOS will block it the first time.** Semaphoz is not signed with an Apple Developer ID
+(that requires a paid Apple Developer account), so Gatekeeper does not recognise it. This
+is a one-time step:
+
+- **macOS 13 / 14** — right-click the app → **Open** → **Open**.
+- **macOS 15 or later** — double-click it, let it be blocked, then go to
+  **System Settings → Privacy & Security**, scroll down to the message about Semaphoz,
+  and click **Open Anyway**. (Apple removed the right-click shortcut in macOS 15.)
+
+If you instead see *"Semaphoz is damaged and can't be opened"*, macOS has quarantined the
+download. Remove the flag with:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/Semaphoz.app
+```
+
+Then enable **Launch at Login** from the dropdown if you want it to start automatically.
+
+## Build from source
+
 Requires only the Xcode Command Line Tools (no Xcode).
 
 ```sh
@@ -39,12 +64,22 @@ General → Login Items, so it can be revoked there too.
 To build without installing:
 
 ```sh
-./build.sh
+./build.sh              # native arch, fast
+./build.sh --universal  # arm64 + x86_64, as shipped in releases
 open Semaphoz.app
 ```
 
 Clicking the menu bar opens the dropdown. To stop it, use **Quit Semaphoz** there, or
 `pkill Semaphoz`.
+
+### Cutting a release
+
+```sh
+./release.sh 0.2.0      # universal build, zipped, published to GitHub Releases
+```
+
+The zip is produced with `ditto` rather than `zip`, which preserves the bundle's symlinks
+and extended attributes — a plain `zip` can yield an `.app` that will not launch.
 
 ## How session state is detected
 
