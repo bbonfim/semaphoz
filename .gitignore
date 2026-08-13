@@ -1,0 +1,7 @@
+# Build output — produced by build.sh
+Semaphoz.app/
+
+# Local Claude Code settings (machine-specific paths and permissions)
+.claude/
+
+.DS_Store
